@@ -1,13 +1,13 @@
 # CELP Audio Codec
 
-A 1200 bps Code Excited Linear Prediction (CELP) audio codec implementation. This project provides a low-bitrate speech coding solution that compresses audio while maintaining intelligibility.
+A 4800 bps Code Excited Linear Prediction (CELP) audio codec implementation. This project provides a low-bitrate speech coding solution that compresses audio while maintaining intelligibility.
 
 ## Overview
 
 This CELP (Code Excited Linear Prediction) codec is designed for very low bitrate speech coding at 1200 bps. It implements the core algorithms for encoding and decoding speech signals using linear predictive coding techniques.
 
 ### Key Features
-- 1200 bps bitrate for extremely low bandwidth usage
+- 4800 bps bitrate for extremely low bandwidth usage
 - Frame-based processing (240 samples per frame)
 - Efficient compression suitable for voice communication
 - Cross-platform compatibility
