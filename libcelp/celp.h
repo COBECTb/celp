@@ -6,6 +6,9 @@
     
 */
 
+#ifndef __CELP_H__
+#define __CELP_H__
+
 /* Define maximum values */
 #define MAXNCSIZE 512
 #define MAXL      60
@@ -123,3 +126,5 @@ extern int celp_decode_state(celp_state_t* state, char packedbits[144 / 8], shor
 extern void celp_init(int prot);
 extern int celp_encode(short iarf[240], char packedbits[144 / 8]);
 extern int celp_decode(char packedbits[144 / 8], short pf[240]);
+
+#endif

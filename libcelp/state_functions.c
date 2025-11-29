@@ -34,50 +34,7 @@
 #define mmax(A,B)        ((A)>(B)?(A):(B))
 #define mmin(A,B)        ((A)<(B)?(A):(B))
 
-/* Include required headers for the functions */
-#include "autohf.h"
-#include "bitprot.h"
-#include "ccsub.h"
-#include "cgain.h"
-#include "clip.h"
-#include "codebook.h"
-#include "confg.h"
-#include "dcodcbg.h"
-#include "dcodcbi.h"
-#include "dcodpg.h"
-#include "dcodtau.h"
-#include "delay.h"
-#include "durbin.h"
-#include "ham.h"
-#include "hamming.h"
-#include "intanaly.h"
-#include "intsynth.h"
-#include "ldelay.h"
-#include "lsp34.h"
-#include "lsptopc.h"
-#include "mexcite.h"
-#include "movefr.h"
-#include "mtrxgen.h"
-#include "pack.h"
-#include "packtau.h"
-#include "pctolsp2.h"
-#include "pddecode.h"
-#include "pdencode.h"
-#include "pgain.h"
-#include "pitchvq.h"
-#include "polefilt.h"
-#include "postfilt.h"
-#include "prefilt.h"
-#include "psearch.h"
-#include "setr.h"
-#include "smcbg.h"
-#include "smpg.h"
-#include "smt.h"
-#include "submult.h"
-#include "unpack.h"
-#include "variance.h"
-#include "vdecode.h"
-#include "zerofilt.h"
+
 
 /* Function to create a new codec state */
 celp_state_t* celp_create_state(void)
@@ -102,27 +59,6 @@ celp_state_t* celp_create_state(void)
     state->cbgtype = "log";
     state->pstype = "hier";
     state->cbbits = 9;
-    
-    /* Initialize constant arrays */
-    // Load pitch delay table
-    for (int i = 0; i < MAXPD; i++) {
-        state->pdelay[i] = pdelay[i];
-    }
-    
-    // Load codebook
-    for (int i = 0; i < MAXCODE; i++) {
-        state->x[i] = x[i];
-    }
-    
-    // Load pitch encode table
-    for (int i = 0; i < MAXPD; i++) {
-        state->pdencode[i] = pdencode[i];
-    }
-    
-    // Load pitch decode table
-    for (int i = 0; i < MAXPD; i++) {
-        state->pddecode[i] = pddecode[i];
-    }
     
     // Initialize filter coefficients
     state->ahpf[0] = 0.946;
@@ -194,11 +130,6 @@ void celp_init_state(celp_state_t* state, int prot)
 
     /* Generate Hamming windows */
     ham(state->hamw, state->ll);
-
-    /* Generate pdtabi for delta delay coding */
-    for (int i = 0; i < MAXPD; i++) {
-        state->pdtabi[state->pdencode[i]] = i;
-    }
 }
 
 /* Function to encode with state */
