@@ -30,8 +30,10 @@
 *
 **************************************************************************/
 
+#include "celp.h"
+
 #ifdef MOVEFR_SUB
-static void movefr(int n, float *a, float *b)
+static void movefr(celp_state_t* state, int n, float *a, float *b)
 {
 	int i;
 

@@ -22,6 +22,9 @@
 #include "celplib.h"
 #include "celp.h"
 
+/* Global state instance for backward compatibility */
+celp_state_t global_state_instance;
+
 #define STREAMBITS	144
 #define CODELENGTH1	15
 #define CODELENGTH2	11
