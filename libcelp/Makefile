@@ -2,7 +2,7 @@
 
 CFLAGS += -Wall -O4
 
-LOBJECTS = celp.o
+LOBJECTS = celp.o state_functions.o
 
 LSRC = $(LOBJECTS:.o=.c)
 
