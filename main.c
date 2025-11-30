@@ -6,7 +6,7 @@
 //  Copyright © 2017 Aleksandr Strokov. All rights reserved.
 //
 
-#include "celp.h"
+#include "libcelp/celp.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
