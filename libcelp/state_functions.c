@@ -21,6 +21,25 @@
 
 #include "celplib.h"
 #include "celp.h"
+#include "context.h"
+
+/* Global context for backward compatibility */
+celp_state_t global_celp_state;
+
+/* Flag to determine which context to use */
+int use_state_context = 1;  /* Use state context by default */
+
+/* Function to set the current context */
+void set_celp_context(celp_state_t* state) {
+    if (state) {
+        global_celp_state = *state;
+    }
+}
+
+/* Function to get the current context */
+celp_state_t* get_celp_context(void) {
+    return &global_celp_state;
+}
 
 #define STREAMBITS	144
 #define CODELENGTH1	15
@@ -28,8 +47,6 @@
 #define PARITYLENGTH	(CODELENGTH1 - CODELENGTH2)
 #define SYNDRUN		100
 #define OMEGA		0.994127	/* Bandwidth expansion for LPC analysis (15 Hz) */
-#define ALPHA		0.8	/* Bandwidth expansion for postfilter */
-#define BETA		0.5	/* Bandwidth expansion for postfilter */
 
 #define mmax(A,B)        ((A)>(B)?(A):(B))
 #define mmin(A,B)        ((A)<(B)?(A):(B))
@@ -147,6 +164,9 @@ void celp_init_state(celp_state_t* state, int prot)
 int celp_encode_state(celp_state_t* state, short iarf[240], char packedbits[STREAMBITS / 8])
 {
     if (!state) return CELP_OK;
+    
+    /* Set the context for macro access */
+    set_celp_context(state);
     
     int i, pointer;
     int i1, i2, i3;
@@ -305,6 +325,9 @@ int celp_encode_state(celp_state_t* state, short iarf[240], char packedbits[STRE
 int celp_decode_state(celp_state_t* state, char packedbits[STREAMBITS / 8], short pf[240])
 {
     if (!state) return CELP_OK;
+    
+    /* Set the context for macro access */
+    set_celp_context(state);
     
     int i1, i2, i3;
 

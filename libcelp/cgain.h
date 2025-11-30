@@ -1,5 +1,7 @@
 /* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
 
+#include "context.h"
+
 /*************************************************************************
 *
 * ROUTINE
@@ -27,8 +29,8 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	e0[]		float	i
-*	h[];		float	i
+*	E0[]		float	i
+*	H[];		float	i
 *
 **************************************************************************
 *
@@ -158,7 +160,7 @@
 static float cgain(const float ex[], int l, int first, int len, float *match)
 {
 	float cor;
-	float cgain;
+	float gain_value;
 	static float y[MAXL], y59save, y60save, eng;
 	int i, j;
 
@@ -195,7 +197,7 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 		for (i = 0; i < l; i++) {
 			if ((ex[i] >= 0.5) || (ex[i] < -0.5))
 				for (j = 0; j < l - i && j < len; j++) {
-					y[i + j] += ex[i] * h[j];
+					y[i + j] += ex[i] * H[j];
 				}
 		}
 	} else {
@@ -222,11 +224,11 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 			/* *ternary stochastic code book (-1, 0, +1)  */
 			if (ex1_1) {
 				for (i = len - 1; i > 0; i--) {
-					y[i - 1] += h[i];
+					y[i - 1] += H[i];
 				}
 			} else {
 				for (i = len - 1; i > 0; i--) {
-					y[i - 1] -= h[i];
+					y[i - 1] -= H[i];
 				}
 			}
 		}
@@ -234,7 +236,7 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 			y[i] = y[i - 1];
 		}
 
-		y[0] = ex[1] * h[0];
+		y[0] = ex[1] * H[0];
 
 		/* *Second shift */
 
@@ -242,11 +244,11 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 			/* *ternary stochastic code book (-1, 0, +1)  */
 			if (ex0_1) {
 				for (i = len - 1; i > 0; i--) {
-					y[i - 1] += h[i];
+					y[i - 1] += H[i];
 				}
 			} else {
 				for (i = len - 1; i > 0; i--) {
-					y[i - 1] -= h[i];
+					y[i - 1] -= H[i];
 				}
 			}
 		}
@@ -254,7 +256,7 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 		for (i = l - 1; i > 0; i--) {
 			y[i] = y[i - 1];
 		}
-		y[0] = ex[0] * h[0];
+		y[0] = ex[0] * H[0];
 	}
 
   /**	Calculate correlation and energy:
@@ -267,7 +269,7 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 
 	cor = 0.0;
 	for (i = 0; i < l; i++) {
-		cor += y[i] * e0[i];
+		cor += y[i] * E0[i];
 	}
 
 	/* *End correct energy on subsequent code words: */
@@ -295,8 +297,8 @@ static float cgain(const float ex[], int l, int first, int len, float *match)
 	if (eng <= 0.0) {
 		eng = 1.0;
 	}
-	cgain = cor / eng;
-	*match = cor * cgain;
+	gain_value = cor / eng;
+	*match = cor * gain_value;
 
-	return cgain;
+	return gain_value;
 }

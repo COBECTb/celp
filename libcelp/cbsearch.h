@@ -1,5 +1,7 @@
 /* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
 
+#include "context.h"
+
 /**************************************************************************
 *
 * ROUTINE
@@ -112,16 +114,16 @@ static void cbsearch(int l, float v[])
 	/*            * along the code vector x)                              */
 	/*            *NOTE: gain(i) & err(i) can be replaced by scalars      */
 	codeword = 2 * MAXNCSIZE - 2;
-	cbindex = 1;
-	gain[0] = cgain(&x[codeword], l, TRUE, LEN, &err[0]);
+	CBINDEX = 1;
+	gain[0] = cgain(&X[codeword], l, TRUE, LEN, &err[0]);
 	emax = *err;
 	codeword -= 2;
-	for (i = 1; i < ncsize; i++) {
-		gain[i] = cgain(&x[codeword], l, FALSE, LEN, &err[i]);
+	for (i = 1; i < NCSIZE; i++) {
+		gain[i] = cgain(&X[codeword], l, FALSE, LEN, &err[i]);
 		codeword -= 2;
 		if (err[i] >= emax) {
 			emax = err[i];
-			cbindex = i + 1;
+			CBINDEX = i + 1;
 		}
 	}
 
@@ -129,23 +131,23 @@ static void cbsearch(int l, float v[])
 
 	/*            *pointer to best code word                              */
 
-	codeword = 2 * (MAXNCSIZE - cbindex);
+	codeword = 2 * (MAXNCSIZE - CBINDEX);
 
 	/*            *OPTIONAL (may be useful for integer DSPs)              */
 	/*            *given best code word, recompute its gain to            */
 	/*            *correct any accumulated errors in recursions           */
-	gain[cbindex - 1] = cgain(&x[codeword], l, TRUE, l, &err[cbindex - 1]);
+	gain[CBINDEX - 1] = cgain(&X[codeword], l, TRUE, l, &err[CBINDEX - 1]);
 
 	/* *constrained excitation                                            */
-	if (mxsw)
-		mexcite3(&gain[cbindex - 1]);
+	if (MXPW)
+		mexcite3(&gain[CBINDEX - 1]);
 
 	/*            *gain quantization, UNNECESSARY for closed-loop quant   */
 
-	if (strncmp(cbgtype, "none", 4) != 0) {
-		if (cbgbits == 5) {
-			gain[cbindex - 1] =
-			    gainencode(gain[cbindex - 1], &gindex);
+	if (strncmp(CBGTYPE, "none", 4) != 0) {
+		if (CBGBITS == 5) {
+			gain[CBINDEX - 1] =
+			    gainencode(gain[CBINDEX - 1], &GINDEX);
 		} else {
 #ifdef CELPDIAG
 			fprintf(stderr, "cbsearch: not quantizing cbgain\n");
@@ -157,7 +159,7 @@ static void cbsearch(int l, float v[])
 	/*            *call VDECODE?                                          */
 
 	for (i = 0; i < l; i++)
-		v[i] = gain[cbindex - 1] * x[i + codeword];
+		v[i] = gain[CBINDEX - 1] * X[i + codeword];
 }
 
 #undef LEN
