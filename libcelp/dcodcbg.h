@@ -58,9 +58,9 @@ static void dcodcbg(int cbgbits, int bitsum1, int bitsum2,
 	for (i = 0; i < nn; i++) {
 		unpack(stream, cbgbits, &index, &pointer);
 		gaindecode(index, cbgbits, &cbg[i]);
-		if (i == 0 || i == 2 || i == 4)
+		if (i == 1 || i == 3 || i == 5)
 			pointer += bitsum2 - cbgbits;
-		else if (i == 1 || i == 3 || i == 5)
+		else if (i == 0 || i == 2 || i == 4)
 			pointer += bitsum1 - cbgbits;
 		else {
 #ifdef CELPDIAG
@@ -71,5 +71,5 @@ static void dcodcbg(int cbgbits, int bitsum1, int bitsum2,
 			return;
 		}
 	}
-	*bitpointer += cbgbits;
+	*bitpointer = pointer;
 }

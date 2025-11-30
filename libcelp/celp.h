@@ -55,7 +55,7 @@ typedef struct {
     float h[MAXLP];
     float pdelay[MAXPD];
     float x[MAXCODE];
-    float pdencode[MAXPD];
+    int pdencode[MAXPD];
     float pddecode[MAXPD];
     
     /* Pitch delay coding tables */
