@@ -2,15 +2,8 @@
 
 /* Data initialization functions */
 
-/* Include the data files to get the values */
-#include "pdelay.h"
-#include "codebook.h"
-#include "pdencode.h"
-#include "pddecode.h"
-#include "bitprot.h"
-
 /* Function to initialize data arrays */
-static void init_data_arrays(celp_state_t* state) {
+void init_data_arrays(celp_state_t* state) {
     /* Initialize pdelay array */
     float pdelay_data[] = {
 #include "pdelay.h"
