@@ -68,6 +68,9 @@ celp_state_t* get_celp_context(void) {
 /* Include context for state management */
 #include "context.h"
 
+/* Include data initialization */
+#include "init_data.h"
+
 /* Include only the headers with basic definitions */
 #include "round.h"
 #include "movefr.h"
@@ -126,6 +129,9 @@ void celp_init_state(celp_state_t* state, int prot)
 {
     if (!state) return;
 
+    /* Initialize data arrays from included files */
+    init_data_arrays(state);
+
 #ifdef PROTECT
     state->protect = prot;		/* Set bit error recovery mode */
 #endif
@@ -172,6 +178,11 @@ void celp_init_state(celp_state_t* state, int prot)
 
     /* Generate Hamming windows */
     ham(state->hamw, state->ll);
+    
+    /* Generate pdtabi for delta delay coding */
+    for (int i = 0; i < MAXPD; i++) {
+        state->pdtabi[state->pdencode[i]] = i;
+    }
 }
 
 /* Function to encode with state */

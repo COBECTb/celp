@@ -56,6 +56,6 @@ static void packtau(int value, int bits, const int pdencode[], short array[],
 
 	/* insert in bitstream                                                 */
 
-	for (i = 0; i < bits; (*pointer)++, i++)
-		array[*pointer] = (value & 1 << i) >> i;
+	for (i = 0; i < bits; i++)
+		array[++(*pointer)] = (value & 1 << i) >> i;
 }

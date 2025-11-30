@@ -48,6 +48,6 @@ static void pack(int value, int bits, short array[], int *pointer)
 {
 	int i;
 
-	for (i = 0; i < bits; (*pointer)++, i++)
-		array[*pointer] = (value & 1 << i) >> i;
+	for (i = 0; i < bits; i++)
+		array[++(*pointer)] = (value & 1 << i) >> i;
 }
