@@ -25,7 +25,7 @@
 *	name		type	type	function
 *	------------------------------------------------------------------
 *	/ccsub/ 	see description include file
-*	e0		float	i	error signal array
+*	E0		float	i	error signal array
 *	
 ***************************************************************************
 *
@@ -82,19 +82,19 @@
 ***************************************************************************/
 
 static float ccor;
-static float e1, e0save[60];
+static float e1, E0save[60];
 
 static void mexcite1(int l)
 {
 	int i;
 
 	/* *e1 = Euclidean norm of the first error signal             */
-	/* (note: the error signal array e0 is reused)                */
+	/* (note: the error signal array E0 is reused)                */
 
 	e1 = 1e-6;
 	for (i = 0; i < l; i++) {
-		e0save[i] = e0[i];
-		e1 += e0[i] * e0[i];
+		E0save[i] = E0[i];
+		e1 += E0[i] * E0[i];
 	}
 }
 
@@ -104,11 +104,11 @@ static void mexcite2(int l)
 
 	/* *ccor = crosscorrelation of the residual signals before    */
 	/* *and after pitch prediction                                */
-	/* *(note: the error signal array e0 is reused                */
+	/* *(note: the error signal array E0 is reused                */
 
 	ccor = 1e-6;
 	for (i = 0; i < l; i++)
-		ccor += e0[i] * e0save[i];
+		ccor += E0[i] * E0save[i];
 
 	/* *normalize the crosscorrelation                            */
 

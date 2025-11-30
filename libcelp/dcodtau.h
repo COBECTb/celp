@@ -34,9 +34,9 @@
 *	name		type	type	function
 *	-------------------------------------------------------------------
 *
-*	plevel1 	int		number of full search pitch delays
-*	plevel2 	int		number of delta search pitch delays
-*	pdelay[]	float		pitch delay coding table
+*	PLEVEL1 	int		number of full search pitch delays
+*	PLEVEL2 	int		number of delta search pitch delays
+*	PDELAY[]	float		pitch delay coding table
 *
 ***************************************************************************
 *
@@ -80,13 +80,13 @@ static void dcodtau(int taubits, int taudelta, int bitsum1,
 		} else {
 			unpack(stream, taudelta, &tptr, &pointer);
 			pointer += bitsum2 - taudelta;
-			mnptr = lptr - (plevel2 / 2 - 1);
-			mxptr = lptr + (plevel2 / 2);
+			mnptr = lptr - (PLEVEL2 / 2 - 1);
+			mxptr = lptr + (PLEVEL2 / 2);
 			if (mnptr < 0)
 				mnptr = 0;
-			if (mxptr > plevel1 - 1)
-				mnptr = plevel1 - plevel2;
-			taus[i] = pdelay[tptr + mnptr];
+			if (mxptr > PLEVEL1 - 1)
+				mnptr = PLEVEL1 - PLEVEL2;
+			taus[i] = PDELAY[tptr + mnptr];
 		}
 		lptr = pdtabi[tptr];
 	}

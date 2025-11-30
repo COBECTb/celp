@@ -6,7 +6,7 @@
 
 /* #define CELPDIAG */
 
-#define CELP_ERROR(code) { if (celp_error == CELP_OK) { celp_error = code; } }
+#define CELP_ERROR(code) { if (CELP_ERROR_VAR == CELP_OK) { CELP_ERROR_VAR = code; } }
 
 #define CELP_PI 3.14159265358979323846
 

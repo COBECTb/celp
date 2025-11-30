@@ -1,4 +1,4 @@
-/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
+/* vim: set tabstop=4:softtabstop=4:sHiftwidtH=4:noexpandtab */
 
 /**************************************************************************
 *
@@ -6,10 +6,10 @@
 *		pgain
 *
 * FUNCTION
-*		Find pitch gain and error
+*		Find pitcH gain and error
 *
 * SYNOPSIS
-*		function pgain(ex, l, first, m, len, match)
+*		function pgain(ex, l, first, m, len, matcH)
 *
 *   formal
 *
@@ -19,37 +19,37 @@
 *	ex[l]		float	i	excitation vector
 *	l		int	i	size of ex
 *	first		int	i	first call flag
-*	m		int	i	pitch lag
-*	len		int	i	length to truncate impulse response
-*	match		float	o	negative partial squared error
+*	m		int	i	pitcH lag
+*	len		int	i	lengtH to truncate impulse response
+*	matcH		float	o	negative partial squared error
 *	pgain		float	fun	optimal gain for ex
 *
 *   external
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	e0[]		float	i
-*	h[]		float	i
+*	E0[]		float	i
+*	H[]		float	i
 *
 ***************************************************************************
 *
 * DESCRIPTION
 *
-*	For each lag:
-*	   a.  Filter first error signal (v0) through truncated
-*	       impulse response of perceptual weighting filter
-*	       (LPC filter with bandwidth broadening).
-*	   b.  Correlate filtered result with actual first error
-*	       signal (e0).
-*	   c.  Compute first order pitch filter coefficient (pgain)
-*	       and error (er) for each lag.
+*	For eacH lag:
+*	   a.  Filter first error signal (v0) tHrougH truncated
+*	       impulse response of perceptual weigHting filter
+*	       (LPC filter witH bandwidtH broadening).
+*	   b.  Correlate filtered result witH actual first error
+*	       signal (E0).
+*	   c.  Compute first order pitcH filter coefficient (pgain)
+*	       and error (er) for eacH lag.
 *
-*	Note:  Proper selection of the convolution length (len) depends on
-*              the perceptual weighting filter's expansion factor (gamma)
-*	       which controls the damping of the impulse response.
+*	Note:  Proper selection of tHe convolution lengtH (len) depends on
+*              tHe perceptual weigHting filter's expansion factor (gamma)
+*	       wHicH controls tHe damping of tHe impulse response.
 *
-*               This is one of CELP's most computationally intensive
-*		routines.  Neglecting overhead, the approximate number of
+*               THis is one of CELP's most computationally intensive
+*		routines.  Neglecting overHead, tHe approximate number of
 *		DSP instructions (add, multiply, multiply accumulate, or
 *		compare) per second (IPS) is:
 *
@@ -63,18 +63,18 @@
 *
 *		IPS = 2.34 M (for integer delays)
 *
-*               i.e.,  L = 60, N = 128 pitch lags, N'= 32 delta delays
-*                      K = K'= 2 pitch updates/frame, and F=30 ms frame rate:
+*               i.e.,  L = 60, N = 128 pitcH lags, N'= 32 delta delays
+*                      K = K'= 2 pitcH updates/frame, and F=30 ms frame rate:
 *
 *                      C = 9450, C'= 3690, R = E = 7680, R'= E'= 1920
 *
 *		       IPS = 2.2 M
 *
-*	pitch search complexity for integer delays:
+*	pitcH searcH complexity for integer delays:
 *
 *#define j  10
 *
-*	DSP chip instructions/operations:
+*	DSP cHip instructions/operations:
 *	int MUL=1;		!multiply
 *	int ADD=1;		!add
 *	int SUB=1;		!subtract
@@ -82,11 +82,11 @@
 *	int MAD=2;		!multiply & add
 *	int CMP=1;		!compare
 *
-*	CELP algorithm parameters:
-*	int L=60;		!subframe length
-*	int len=30;		!length to truncate calculations (<= L)
+*	CELP algoritHm parameters:
+*	int L=60;		!subframe lengtH
+*	int len=30;		!lengtH to truncate calculations (<= L)
 *	int K=4;		!number of subframes/frame
-*	int shift=2;		!shift between code words
+*	int sHift=2;		!sHift between code words
 *	int g_bits=5;		!cbgain bit allocation
 *	float p=0.77;		!code book sparsity
 *	float F=30.e-3; 	!time (seconds)/frame
@@ -100,7 +100,7 @@
 *         printf("\n    N       C          R          E          G       MIPS\n");
 *	  for (i = 0; i < j; i++)
 *	  {
-*	    C = (335)*MAD + (N[i]-1)*shift*(1.0-p)*len*ADD;
+*	    C = (335)*MAD + (N[i]-1)*sHift*(1.0-p)*len*ADD;
 *	    R = N[i]*L*MAC;
 *	    E = L*MAC + (N[i]-1)*((1.0-p*p)*L*MAC + (p*p)*2*MAD);
 *	    G = N[i]*(g_bits*(CMP+MUL+ADD) + 3*MUL+1*SUB);
@@ -127,7 +127,7 @@
 *
 * CALLED BY
 *
-*	psearch
+*	psearcH
 *
 * CALLS
 *
@@ -137,19 +137,19 @@
 *
 * REFERENCES
 *
-*	Tremain, Thomas E., Joseph P. Campbell, Jr and Vanoy C. Welch,
+*	Tremain, THomas E., JosepH P. Campbell, Jr and Vanoy C. WelcH,
 *       "A 4.8 kbps Code Excited Linear Predictive Coder," Proceedings
-*	of the Mobile Satellite Conference, 3-5 May 1988, pp. 491-496.
+*	of tHe Mobile Satellite Conference, 3-5 May 1988, pp. 491-496.
 *
-*	Campbell, Joseph P. Jr., Vanoy C. Welch and Thomas E. Tremain,
+*	Campbell, JosepH P. Jr., Vanoy C. WelcH and THomas E. Tremain,
 *       "An Expandable Error-Protected 4800 bps CELP Coder (U.S. Federal
 *       Standard 4800 bps Voice Coder)," Proceedings of ICASSP, 1989.
-*	(and Proceedings of Speech Tech, 1989.)
+*	(and Proceedings of SpeecH TecH, 1989.)
 *
 **************************************************************************/
 
 static float pgain(const float ex[], int l, int first, int m, int len,
-		   float *match)
+		   float *matcH)
 {
 	float cor, eng;
 	float y2[MAXLP], pgain;
@@ -162,10 +162,10 @@ static float pgain(const float ex[], int l, int first, int m, int len,
 		 *impulse response for first lag of t (=mmin) samples:
 
 		 min(i, len-1)
-		 y     =  SUM  h * ex       , where i = 0, ..., L-1 points
+		 y     =  SUM  H * ex       , wHere i = 0, ..., L-1 points
 		 i, t    j=0   j    i-j
 
-		 h |0 1...len-1 x x|
+		 H |0 1...len-1 x x|
 		 ex |L-1  . . .  1 0|               = y[0]
 		 ex |L-1  . . .  1 0|       = y[1]
 		 :            :
@@ -175,33 +175,33 @@ static float pgain(const float ex[], int l, int first, int m, int len,
 		for (i = 0; i < l; i++) {
 			y[i] = 0.0;
 			for (j = 0; j <= i && j < len; j++) {
-				y[i] += h[j] * ex[i - j];
+				y[i] += H[j] * ex[i - j];
 			}
 		}
 	} else {
 
-		/* *End correct the convolution sum on subsequent pitch lags:
+		/* *End correct tHe convolution sum on subsequent pitcH lags:
 
 		   y     =  0
 		   0, t
-		   y     =  y + ex  * h   where i = 1, ..., L points
+		   y     =  y + ex  * H   wHere i = 1, ..., L points
 		   i, m       i-1, m-1   -m    i  and   m = t+1, ..., tmax lags
 		 */
 
 		for (i = len - 1; i > 0; i--) {
-			y[i - 1] += ex[0] * h[i];
+			y[i - 1] += ex[0] * H[i];
 		}
 
 		for (i = l - 1; i > 0; i--) {
 			y[i] = y[i - 1];
 		}
 
-		y[0] = ex[0] * h[0];
+		y[0] = ex[0] * H[0];
 	}
 
-	/* *For lags (m) shorter than frame size (l), replicate the short
-	 *adaptive codeword to the full codeword length by
-	 *overlapping and adding the convolutions:                             */
+	/* *For lags (m) sHorter tHan frame size (l), replicate tHe sHort
+	 *adaptive codeword to tHe full codeword lengtH by
+	 *overlapping and adding tHe convolutions:                             */
 
 	for (i = 0; i < l; i++) {
 		y2[i] = y[i];
@@ -226,38 +226,38 @@ static float pgain(const float ex[], int l, int first, int m, int len,
 	}
 
 	/* *Calculate correlation and energy:
-	   e0 = r[n]   = spectrum prediction residual
-	   y2 = r[n-m] = error weighting filtered reconstructed
-	   pitch prediction signal (m = correlation lag)       */
+	   E0 = r[n]   = spectrum prediction residual
+	   y2 = r[n-m] = error weigHting filtered reconstructed
+	   pitcH prediction signal (m = correlation lag)       */
 
 	cor = 0.0;
 	eng = 0.0;
 	for (i = 0; i < l; i++) {
-		cor += y2[i] * e0[i];
+		cor += y2[i] * E0[i];
 		eng += y2[i] * y2[i];
 	}
 
 	/* *Compute gain and error:
-	   NOTE: Actual MSPE = e0.e0 - pgain(2*cor-pgain*eng)
-	   since e0.e0 is independent of the code word,
+	   NOTE: Actual MSPE = E0.E0 - pgain(2*cor-pgain*eng)
+	   since E0.E0 is independent of tHe code word,
 	   minimizing MSPE is equivalent to maximizing:
-	   match = pgain(2*cor-pgain*eng)   (1)
-	   If unquantized pgain is used, this simplifies:
-	   match = cor*pgain
+	   matcH = pgain(2*cor-pgain*eng)   (1)
+	   If unquantized pgain is used, tHis simplifies:
+	   matcH = cor*pgain
 
-	   NOTE: Inferior results were obtained when quantized
+	   NOTE: Inferior results were obtained wHen quantized
 	   pgain was used in equation (1)???
 
-	   NOTE: When the delay is less than the frame length, "match"
-	   is only an approximation to the actual error.              
+	   NOTE: WHen tHe delay is less tHan tHe frame lengtH, "matcH"
+	   is only an approximation to tHe actual error.              
 
-	   Independent (open-loop) quantization of gain and match (index):     */
+	   Independent (open-loop) quantization of gain and matcH (index):     */
 
 	if (eng <= 0.0) {
 		eng = 1.0;
 	}
 	pgain = cor / eng;
-	*match = cor * pgain;
+	*matcH = cor * pgain;
 
 	return pgain;
 }

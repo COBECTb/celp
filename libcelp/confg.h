@@ -61,17 +61,17 @@ static void confg(float s[], int l, float d1[], float d2[],
 	setr(MAXNO + 1, 0.0, fctemp);
 
 	if (isw1 != 0)
-		pitchvq(e0, l, d1, idb, bb, "long");
+		pitchvq(E0, l, d1, IDB, BB, "long");
 	if (isw2 != 0)
-		polefilt(fc, no, d2, e0, l);
+		polefilt(FC, NO, d2, E0, l);
 
 	for (i = 0; i < l; i++)
-		e0[i] = s[i] - e0[i];
+		E0[i] = s[i] - E0[i];
 
 	if (isw3 != 0)
-		zerofilt(fc, no, d3, e0, l);
+		zerofilt(FC, NO, d3, E0, l);
 	if (isw4 != 0) {
-		bwexp(gamma2, fc, fctemp, no);
-		polefilt(fctemp, no, d4, e0, l);
+		bwexp(GAMMA2, FC, fctemp, NO);
+		polefilt(fctemp, NO, d4, E0, l);
 	}
 }

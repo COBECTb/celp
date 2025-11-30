@@ -25,9 +25,9 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	bb[]		float	i/o
-*	prewt		real	i
-*	idb		int	i
+*	BB[]		float	i/o
+*	PREWT		real	i
+*	IDB		int	i
 *
 ***************************************************************************
 *
@@ -71,8 +71,8 @@ static void prefilt(float s[], int l, float dpp[])
 	for (i = 0; i < l; i++)
 		powerin += s[i] * s[i];
 	/* powerin = (1.0 - TC) * powerin + TC * (s[i] * s[i]);     */
-	bb[2] = prewt * bb[2];
-	pitchvq(s, l, dpp, idb, bb, "short");
+	BB[2] = PREWT * BB[2];
+	pitchvq(s, l, dpp, IDB, BB, "short");
 
 	/* estimate output power                                      */
 

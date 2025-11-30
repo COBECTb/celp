@@ -1,4 +1,4 @@
-/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
+/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:NOexpandtab */
 
 /**************************************************************************
 *
@@ -30,7 +30,7 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	no		int	i
+*	NO		int	i
 *	frame		int	i
 *
 ***************************************************************************
@@ -39,12 +39,12 @@
 *               This routine interpolates lsp's for subframe synthesis.
 *	This version is only for use with absolute scalar LSP coding!
 *	The interpolated LSPs are identical to the interpolated set in the
-*	transmitter provided there are no transmission errors.	If the 
-*       LSP's are nonmonotonic, then LSP errors have occured and an 
+*	transmitter provided there are NO transmission errors.	If the 
+*       LSP's are NOnmoNOtonic, then LSP errors have occured and an 
 *       attempt is made to "fix" them by repeating previous LSP values. 
-*	If this correction fails (the vector is still nonomonotonic),
+*	If this correction fails (the vector is still NONOmoNOtonic),
 *	then the entire previous LSP vector is repeated.  (This version
-*	ignores twoerror and syndavg.)
+*	igNOres twoerror and syndavg.)
 *
 *
 ***************************************************************************
@@ -66,7 +66,7 @@ static void intsynth(float lspnew[], int nn, float lsp[][MAXNO],
 	(void)twoerror;
 	(void)syndavg;
 #endif
-	int i, j, nonmono;
+	int i, j, NOnmoNO;
 	float temp[MAXNO + 1], rc[MAXNO];
 	static const float w[2][4] = {
 		{0.875, 0.625, 0.375, 0.125},
@@ -77,13 +77,13 @@ static void intsynth(float lspnew[], int nn, float lsp[][MAXNO],
 		.23, .29, .33, .39, .44
 	};
 
-	/* *try to fix any nonmonotonic LSPs by repeating pair         */
+	/* *try to fix any NOnmoNOtonic LSPs by repeating pair         */
 
-	for (i = 1; i < no; i++) {
+	for (i = 1; i < NO; i++) {
 		if (lspnew[i] <= lspnew[i - 1]) {
 #ifdef CELPDIAG
 			fprintf(stderr,
-				"intsynth: try to fix any nonmonotonic LSPs\n");
+				"intsynth: try to fix any NOnmoNOtonic LSPs\n");
 #endif
 			lspnew[i] = lspold[i];
 			lspnew[i - 1] = lspold[i - 1];
@@ -92,15 +92,15 @@ static void intsynth(float lspnew[], int nn, float lsp[][MAXNO],
 
 	/* *check fixed LSPs (also check for pairs too close?)         */
 
-	nonmono = FALSE;
-	for (i = 1; i < no; i++) {
+	NOnmoNO = FALSE;
+	for (i = 1; i < NO; i++) {
 		if (lspnew[i] <= lspnew[i - 1])
-			nonmono = TRUE;
+			NOnmoNO = TRUE;
 	}
 
 	/* *if fix fails, repeat entire LSP vector                     */
 
-	if (nonmono) {
+	if (NOnmoNO) {
 #ifdef CELPDIAG
 		fprintf(stderr, "intsynth: repeat entire LSP vector\n");
 		fprintf(stderr,
@@ -108,7 +108,7 @@ static void intsynth(float lspnew[], int nn, float lsp[][MAXNO],
 			syndavg, twoerror, frame);
 		fprintf(stderr, "lspold          lspnew\n");
 #endif
-		for (i = 0; i < no; i++) {
+		for (i = 0; i < NO; i++) {
 #ifdef CELPDIAG
 			fprintf(stderr, "%-14f %-14f \n", lspold[i], lspnew[i]);
 #endif
@@ -116,32 +116,32 @@ static void intsynth(float lspnew[], int nn, float lsp[][MAXNO],
 		}
 	}
 
-	/* *OPTIONAL (and not finished):                               */
+	/* *OPTIONAL (and NOt finished):                               */
 	/* *if large prediction gain then repeat close LSP pair        */
 
 	lsptopc(lspnew, temp);
-	pctorc(temp, rc, no);
+	pctorc(temp, rc, NO);
 
 	/* *interpolate lsp's                                          */
 	for (i = 0; i < nn; i++) {
-		for (j = 0; j < no; j++)
+		for (j = 0; j < NO; j++)
 			lsp[i][j] = w[0][i] * lspold[j] + w[1][i] * lspnew[j];
 
 		/* *OPTIONAL bug checker                                     */
-		/* *check for monotonically increasing lsp's                 */
+		/* *check for moNOtonically increasing lsp's                 */
 #ifdef CELPDIAG
-		nonmono = FALSE;
-		for (j = 1; j < no; j++) {
+		NOnmoNO = FALSE;
+		for (j = 1; j < NO; j++) {
 			if (lsp[i][j] <= lsp[i][j - 1])
-				nonmono = TRUE;
+				NOnmoNO = TRUE;
 		}
 
-		if (nonmono) {
+		if (NOnmoNO) {
 			fprintf(stderr,
-				"intsynth: nonmono LSPs @ frame %d CAN'T HAPPEN\n",
+				"intsynth: NOnmoNO LSPs @ frame %d CAN'T HAPPEN\n",
 				frame);
 			fprintf(stderr, "intsynth: LSPs=");
-			for (j = 0; j < no; j++)
+			for (j = 0; j < NO; j++)
 				fprintf(stderr, "  %f", lsp[i][j]);
 			fprintf(stderr, "\n");
 		}
@@ -150,6 +150,6 @@ static void intsynth(float lspnew[], int nn, float lsp[][MAXNO],
 
 	/*            *update lsp history                                      */
 
-	for (i = 0; i < no; i++)
+	for (i = 0; i < NO; i++)
 		lspold[i] = lspnew[i];
 }

@@ -25,7 +25,7 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	x[]		float	i
+*	X[]		float	i
 *
 ***************************************************************************
 *
@@ -45,14 +45,14 @@ static void vdecode(float decodedgain, int l, float vdecoded[])
 
 	/* *copy selected vector to excitation array                           */
 
-	codeword = 2 * (MAXNCSIZE - cbindex);
+	codeword = 2 * (MAXNCSIZE - CBINDEX);
 	if (codeword < 0) {
 #ifdef CELPDIAG
-		fprintf(stderr, "vdecode: cbindex > MAXNCSIZE at frame %d\n",
+		fprintf(stderr, "vdecode: CBINDEX > MAXNCSIZE at frame %d\n",
 			frame);
 #endif
 		codeword = 0;
 	}
 	for (i = 0; i < l; i++)
-		vdecoded[i] = x[i + codeword] * decodedgain;
+		vdecoded[i] = X[i + codeword] * decodedgain;
 }
