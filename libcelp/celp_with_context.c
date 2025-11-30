@@ -21,7 +21,6 @@
 
 #include "celplib.h"
 #include "celp.h"
-#include "context.h"
 
 /* Global state instance for backward compatibility */
 celp_state_t global_state_instance;

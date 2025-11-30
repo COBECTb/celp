@@ -34,6 +34,18 @@
 #define mmax(A,B)        ((A)>(B)?(A):(B))
 #define mmin(A,B)        ((A)<(B)?(A):(B))
 
+/* Include celplib functions */
+#include "celplib.h"
+
+/* Include only the headers with basic definitions */
+#include "round.h"
+#include "movefr.h"
+
+/* Include celpfiles to get access to functions */
+#include "celpfiles.h"
+
+
+
 
 /* Function to create a new codec state */
 celp_state_t* celp_create_state(void)
