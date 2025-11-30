@@ -29,16 +29,27 @@ celp_state_t global_celp_state;
 /* Flag to determine which context to use */
 int use_state_context = 1;  /* Use state context by default */
 
+/* Current context pointer */
+static celp_state_t* current_context = NULL;
+
 /* Function to set the current context */
 void set_celp_context(celp_state_t* state) {
+    current_context = state;
     if (state) {
-        global_celp_state = *state;
+        use_state_context = 1;
+        global_celp_state = *state;  // Copy state to global for context macros
+    } else {
+        use_state_context = 0;
     }
 }
 
 /* Function to get the current context */
 celp_state_t* get_celp_context(void) {
-    return &global_celp_state;
+    if (use_state_context && current_context) {
+        return current_context;
+    } else {
+        return &global_celp_state;
+    }
 }
 
 #define STREAMBITS	144
