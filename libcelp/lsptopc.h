@@ -70,7 +70,7 @@ static void lsptopc(float f[], float pc[])
 	if (f[0] <= 0.0 || f[0] >= 0.5) {
 		fprintf(stderr,
 			"lsptopc: LSPs out of bounds; f(0) = %f at frame %d\n",
-			f[0], frame);
+			f[0], FRAME);
 	}
 #endif
 	lsp_flag_local = FALSE;
@@ -81,14 +81,14 @@ static void lsptopc(float f[], float pc[])
 		if (f[i] <= 0.0 || f[i] >= 0.5) {
 			fprintf(stderr,
 				"lsptopc: LSPs out of bounds; f(%d) = %f at frame %d\n",
-				i, f[i], frame);
+				i, f[i], FRAME);
 		}
 #endif
 	}
 #ifdef CELPDIAG
 	if (lsp_flag_local) {
 		fprintf(stderr, "lsptopc: NOnmoNOtonic LSPs at frame %d\n",
-			frame);
+			FRAME);
 	}
 #endif
 
