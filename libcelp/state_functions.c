@@ -35,7 +35,6 @@
 #define mmin(A,B)        ((A)<(B)?(A):(B))
 
 
-
 /* Function to create a new codec state */
 celp_state_t* celp_create_state(void)
 {
@@ -171,7 +170,7 @@ int celp_encode_state(celp_state_t* state, short iarf[240], char packedbits[STRE
     pctolsp2(state->fcn, state->no, state->newfreq, &state->lspflag);
     if (state->lspflag) {
 #ifdef CELPDIAG
-        fprintf(stderr, "celp: Bad \\\"new\\\" lsp at frame: %d\\n", state->frame);
+        fprintf(stderr, "celp: Bad \\\\\"new\\\" lsp at frame: %d\\n", state->frame);
         fprintf(stderr, "lsp: ");
         for (i = 0; i < state->no; i++) {
             fprintf(stderr, "%9.5f", state->newfreq[i]);
@@ -264,7 +263,7 @@ int celp_encode_state(celp_state_t* state, short iarf[240], char packedbits[STRE
     }
 #endif
 
-    /*  At this time \"stream\" contains the CELP encoded bitstream.  The
+    /*  At this time \\\"stream\\\" contains the CELP encoded bitstream.  The
         stream array consists of one bit per int element.  */
     i2 = 0x80;
     i3 = 0;
