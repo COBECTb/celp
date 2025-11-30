@@ -53,6 +53,17 @@ static void vdecode(float decodedgain, int l, float vdecoded[])
 #endif
 		codeword = 0;
 	}
+	
+	/* Additional bounds check to prevent buffer overflow */
+	if (codeword + l > MAXCODE) {
+#ifdef CELPDIAG
+		fprintf(stderr, "vdecode: Buffer overflow detected (codeword=%d, l=%d, MAXCODE=%d) at frame %d\n",
+			codeword, l, MAXCODE, frame);
+#endif
+		codeword = MAXCODE - l;
+		if (codeword < 0) codeword = 0;
+	}
+	
 	for (i = 0; i < l; i++)
 		vdecoded[i] = X[i + codeword] * decodedgain;
 }
