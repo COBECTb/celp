@@ -1,33 +1,62 @@
 ```
 # Compiled and build artifacts
+*.a
 *.o
 *.obj
 *.out
+build/
+dist/
 
 # Dependencies
-__pycache__/
-*.pyc
-*.pyo
+.venv/
+venv/
+node_modules/
 
 # Logs and temp files
 *.log
 *.tmp
+*.swp
+
+# Editors
+.vscode/
+.idea/
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Editors
-.vscode/
-.idea/
+# Coverage
+coverage/
+htmlcov/
+.coverage
 
-# Build directories
-build/
-dist/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
 target/
+.gradle/
+build/
 
-# Compression files
+# C/C++
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.out
+
+# Compression
 *.zip
 *.gz
 *.tar
@@ -50,24 +79,4 @@ target/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
-
-# System files
-.DS_Store
-Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# MyPy
-.mypy_cache/
-
-# PyTest
-.pytest_cache/
-
-# Gradle
-.gradle/
-
-# Original rules preserved
 ```

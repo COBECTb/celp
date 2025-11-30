@@ -1,6 +1,6 @@
 /* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
 
-20.00000,
+   20.00000,
     20.33334,
     20.66667,
     21.00000,
