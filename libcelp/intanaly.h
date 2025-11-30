@@ -1,4 +1,4 @@
-/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
+/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:NOexpandtab */
 
 /**************************************************************************
 *
@@ -27,7 +27,7 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	no		int	i
+*	NO		int	i
 *	frame		int	i
 *
 ***************************************************************************
@@ -81,7 +81,7 @@ static const float w[2][4] = { {0.875, 0.625, 0.375, 0.125},
 
 static void intanaly(float lspnew[], int nn, float lsp[][MAXNO])
 {
-	int i, j, nonmono;
+	int i, j, NOnmoNO;
 	static float lspold[MAXNO] =
 	    { .03, .05, .09, .13, .19, .23, .29, .33, .39, .44 };
 	static float oldlsp[MAXNO];
@@ -91,18 +91,18 @@ static void intanaly(float lspnew[], int nn, float lsp[][MAXNO])
 		/* *interpolate lsp's                                          */
 
 	{
-		for (j = 0; j < no; j++)
+		for (j = 0; j < NO; j++)
 			lsp[i][j] = w[0][i] * lspold[j] + w[1][i] * lspnew[j];
 
 		/* *OPTIONAL bug checker
-		 *check for monotonically increasing lsp's
+		 *check for moNOtonically increasing lsp's
 		 *swap crossed LSPs                                 */
 
-		for (j = 1; j < no; j++) {
+		for (j = 1; j < NO; j++) {
 			if (lsp[i][j] < lsp[i][j - 1]) {
 #ifdef CELPDIAG
 				fprintf(stderr,
-					"intanaly: Swapping nonmono lsps @ frame %d\n",
+					"intanaly: Swapping NOnmoNO lsps @ frame %d\n",
 					frame);
 #endif
 				tempfreq = lsp[i][j];
@@ -111,21 +111,21 @@ static void intanaly(float lspnew[], int nn, float lsp[][MAXNO])
 			}
 		}
 
-		/* *recheck for monotonically increasing lsp's
+		/* *recheck for moNOtonically increasing lsp's
 		 *substitute old LSPs (they must be really messed up!)      */
 
-		nonmono = FALSE;
-		for (j = 1; j < no; j++) {
+		NOnmoNO = FALSE;
+		for (j = 1; j < NO; j++) {
 			if (lsp[i][j] < lsp[i][j - 1])
-				nonmono = TRUE;
+				NOnmoNO = TRUE;
 		}
-		if (nonmono) {
+		if (NOnmoNO) {
 #ifdef CELPDIAG
 			fprintf(stderr,
 				"intanaly: Resetting interp LSP at frame %d\n",
 				frame);
 #endif
-			for (j = 0; j < no; j++) {
+			for (j = 0; j < NO; j++) {
 				if (i == 0)
 					lsp[i][j] = oldlsp[j];
 				else
@@ -136,7 +136,7 @@ static void intanaly(float lspnew[], int nn, float lsp[][MAXNO])
 
 	/*            *save lsp's for next pass                               */
 
-	for (j = 0; j < no; j++) {
+	for (j = 0; j < NO; j++) {
 		lspold[j] = lspnew[j];
 		oldlsp[j] = lsp[nn][j];
 	}

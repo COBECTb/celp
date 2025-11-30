@@ -1,4 +1,4 @@
-/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
+/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:NOexpandtab */
 
 /**************************************************************************
 *
@@ -22,26 +22,26 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	idb		int	i	dimension of d1a and d1b???
-*	no		int	i	filter order  predictor
-*	nseg		int	i	segment counter
-*	pindex		int	i/o	pitch gain index bb[2]
-*	bb		float	i/o	pitch predictor coefficients
+*	IDB		int	i	dimension of d1a and d1b???
+*	NO		int	i	filter order  predictor
+*	NSEG		int	i	segment counter
+*	PINDEX		int	i/o	pitch gain index BB[2]
+*	BB		float	i/o	pitch predictor coefficients
 *	d1b[]		float	i/o	memory 1/P(z)
 *	frame		int	i
 *	h[]		float	i/o	impulse response
-*	ptype[] 	char	i	pitch gain (bb[2]) quantizer type
-*	pstype[]	char	i	pitch search type
+*	PTYPE[] 	char	i	pitch gain (BB[2]) quantizer type
+*	PSTYPE[]	char	i	pitch search type
 *	pitch_gain_vid	int	i
 *	pitch_qgain_vid int	i
 *	pitch_match_vid int	i
 *	pitch_ir_vid	int	i
 *	fndpp_v0_vid	int	i
-*	tauptr		int		pitch delay pointer
-*	pdelay		float		pitch delay coding table
-*	minptr		int		minimum delay pointer
-*	plevel1 	int		number of full search pitch delays
-*	plevel2 	int		number of delta search pitch delays
+*	TAUPTR		int		pitch delay pointer
+*	PDELAY		float		pitch delay coding table
+*	MINPTR		int		minimum delay pointer
+*	PLEVEL1 	int		number of full search pitch delays
+*	PLEVEL2 	int		number of delta search pitch delays
 *
 ***************************************************************************
 *	
@@ -52,11 +52,11 @@
 *  "adaptive code book" or "VQ" method.  This method was found to be
 *  superior to the conventional "filtering approach", especially for high
 *  pitched speakers.  The filtering and VQ methods are identical except when
-*  the delay is less than the frame length.  The pitch delay ranges from minptr
-*  to maxptr (i.e., 20 to 147 including noninteger) lags every odd subframe 
+*  the delay is less than the frame length.  The pitch delay ranges from MINPTR
+*  to maxptr (i.e., 20 to 147 including NOninteger) lags every odd subframe 
 *  while even subframes are searched and coded within 2**pbits[1] (i.e., 32)  
 *  lags relative to the previous subframe.  The delta search greatly reduces
-*  the computational complexity and data rate while causing no percievable 
+*  the computational complexity and data rate while causing NO percievable 
 *  loss in speech quality.
 *
 *  The minimum squared prediction error (MSPE) search criteria is modified
@@ -80,11 +80,11 @@
 *
 * REFRENCES
 *
-*	Tremain, Thomas E., Joseph P. Campbell, Jr and Vanoy C. Welch,
+*	Tremain, Thomas E., Joseph P. Campbell, Jr and VaNOy C. Welch,
 *       "A 4.8 kbps Code Excited Linear Predictive Coder," Proceedings
 *	of the Mobile Satellite Conference, 3-5 May 1988, pp. 491-496.
 *
-*	Campbell, Joseph P. Jr., Vanoy C. Welch and Thomas E. Tremain,
+*	Campbell, Joseph P. Jr., VaNOy C. Welch and Thomas E. Tremain,
 *       "An Expandable Error-Protected 4800 bps CELP Coder (U.S. Federal
 *       Standard 4800 bps Voice Coder)," Proceedings of ICASSP, 1989.
 *	(and Proceedings of Speech Tech, 1989.)
@@ -95,7 +95,7 @@
 *
 *       Marques, J.S., et al., "Pitch Prediction with Fractional Delays
 *       in CELP Coding," European Conference on Speech Communication and
-*	Technology, September, 1989.
+*	TechNOlogy, September, 1989.
 *
 **************************************************************************/
 #define LEN		30	/* *length of truncated impulse response     */
@@ -121,9 +121,9 @@ static void psearch(int l)
 /*									 */
 /* *choose type of pitch delay search:					 */
 /*	*two stage hierarchical search of integer and neighboring	 */
-/*	*noninteger delays						 */
+/*	*NOninteger delays						 */
 
-	if (strcmp(pstype, "hier") == 0) {
+	if (strcmp(PSTYPE, "hier") == 0) {
 		whole = 1;
 		fraction = 0;
 		sub = 1;
@@ -133,7 +133,7 @@ static void psearch(int l)
 
 	/*    *integer only search                                             */
 
-	else if (strcmp(pstype, "intg") == 0) {
+	else if (strcmp(PSTYPE, "intg") == 0) {
 		whole = 1;
 		fraction = 0;
 		sub = 1;
@@ -142,7 +142,7 @@ static void psearch(int l)
 
 	/*    *full exhaustive search                                          */
 
-	else if (strcmp(pstype, "full") == 0) {
+	else if (strcmp(PSTYPE, "full") == 0) {
 		whole = 1;
 		fraction = 1;
 		sub = 1;
@@ -150,7 +150,7 @@ static void psearch(int l)
 	} else {
 #ifdef CELPDIAG
 		fprintf(stderr,
-			"psearch: incorrect pitch search type (pstype)");
+			"psearch: incorrect pitch search type (PSTYPE)");
 #endif
 		CELP_ERROR(CELP_ERR_PITCH_TYPE);
 		return;
@@ -174,7 +174,7 @@ static void psearch(int l)
 		CELP_ERROR(CELP_ERR_IMPULSE_LENGTH);
 		return;
 	}
-	bufptr = MMAX + no + 2 * l + MAXNP - 1;
+	bufptr = MMAX + NO + 2 * l + MAXNP - 1;
 	if (MAXLP < MAXL) {
 #ifdef CELPDIAG
 		fprintf(stderr, "psearch: MAXLP < MAXL\n");
@@ -185,37 +185,37 @@ static void psearch(int l)
 
 	/* *update adaptive code book (pitch memory)                           */
 
-	movefr(idb, d1b, &v0[bufptr - idb - l]);
+	movefr(IDB, d1b, &v0[bufptr - IDB - l]);
 
 	/* *initial conditions                                                 */
 
-	if (nseg == 1) {
-		bb[2] = 0.0;
-		bb[0] = MMIN;
+	if (NSEG == 1) {
+		BB[2] = 0.0;
+		BB[0] = MMIN;
 	} else {
 
-		/*          *find allowable pointer range (minptr to maxptr)         */
+		/*          *find allowable pointer range (MINPTR to maxptr)         */
 
-		if ((nseg % 2) == 0) {
+		if ((NSEG % 2) == 0) {
 
 			/* *delta delay coding on even subframes                             */
 
-			minptr = oldptr - (plevel2 / 2 - 1);
-			maxptr = oldptr + (plevel2 / 2);
-			if (minptr < 0) {
-				minptr = 0;
-				maxptr = plevel2 - 1;
+			MINPTR = oldptr - (PLEVEL2 / 2 - 1);
+			maxptr = oldptr + (PLEVEL2 / 2);
+			if (MINPTR < 0) {
+				MINPTR = 0;
+				maxptr = PLEVEL2 - 1;
 			}
-			if (maxptr > plevel1 - 1) {
-				maxptr = plevel1 - 1;
-				minptr = plevel1 - plevel2;
+			if (maxptr > PLEVEL1 - 1) {
+				maxptr = PLEVEL1 - 1;
+				MINPTR = PLEVEL1 - PLEVEL2;
 			}
 		} else {
 
 			/* *full range coding on odd subframes                               */
 
-			minptr = 0;
-			maxptr = plevel1 - 1;
+			MINPTR = 0;
+			maxptr = PLEVEL1 - 1;
 		}
 
 		start = bufptr - l + 1;
@@ -225,9 +225,9 @@ static void psearch(int l)
 
 		if (whole) {
 			first = TRUE;
-			for (i = minptr; i <= maxptr; i++) {
-				m = (int)pdelay[i];
-				frac = pdelay[i] - m;
+			for (i = MINPTR; i <= maxptr; i++) {
+				m = (int)PDELAY[i];
+				frac = PDELAY[i] - m;
 				if (fabs(frac) < 1.e-4) {
 					lag = start - m;
 					g[i] =
@@ -244,9 +244,9 @@ static void psearch(int l)
 		/* *(could use end-point correction on unity spaced delays)          */
 
 		if (fraction) {
-			for (i = minptr; i <= maxptr; i++) {
-				m = (int)pdelay[i];
-				frac = pdelay[i] - m;
+			for (i = MINPTR; i <= maxptr; i++) {
+				m = (int)PDELAY[i];
+				frac = PDELAY[i] - m;
 				if (fabs(frac) >= 1.e-4) {
 					delay(v0, start, l, frac, m, v0shift);
 					g[i] =
@@ -259,9 +259,9 @@ static void psearch(int l)
 		/* *find pointer to top (MSPE) match score (topptr)                  */
 		/* *search for best match score (max -error term)                    */
 
-		topptr = minptr;
+		topptr = MINPTR;
 		emax = match[topptr];
-		for (i = minptr; i <= maxptr; i++) {
+		for (i = MINPTR; i <= maxptr; i++) {
 			if (match[i] > emax) {
 				topptr = i;
 				emax = match[topptr];
@@ -272,9 +272,9 @@ static void psearch(int l)
 		/* *select shortest delay of 2, 3, or 4 submultiples. if its match   */
 		/* *is within 1 dB of MSPE to favor smooth "pitch"                   */
 
-		tauptr = topptr;
+		TAUPTR = topptr;
 		if (sub) {
-			if ((nseg % 2) != 0) {
+			if ((NSEG % 2) != 0) {
 
 				/* *for each submultiple {2, 3 & 4}                                */
 
@@ -285,7 +285,7 @@ static void psearch(int l)
 					bigptr = submult[topptr][i];
 					for (subptr =
 					     (mmax(submult[topptr][i] - 8,
-						  minptr));
+						  MINPTR));
 					     subptr <=
 					     mmin(submult[topptr][i] + 8,
 						  maxptr); subptr++) {
@@ -298,25 +298,25 @@ static void psearch(int l)
 
 					if (match[bigptr] >=
 					    0.88 * match[topptr]) {
-						tauptr = bigptr;
+						TAUPTR = bigptr;
 					}
 				}
 			}
 		}
 
-		/* *search tauptr's neighboring delays                               */
+		/* *search TAUPTR's neighboring delays                               */
 		/* *(to be used with earlier stages of searching)                    */
 		/* *find gain and match score for neighboring delays                 */
 		/* *and find best neighborhood match                                 */
 		/* *(could use end-point correction on unity spaced delays)          */
 
 		if (neigh) {
-			bigptr = tauptr;
-			for (i = (mmax(tauptr - nrange, minptr));
-			     i <= mmin(tauptr + nrange, maxptr); i++) {
-				if (i != tauptr) {
-					m = (int)pdelay[i];
-					frac = pdelay[i] - m;
+			bigptr = TAUPTR;
+			for (i = (mmax(TAUPTR - nrange, MINPTR));
+			     i <= mmin(TAUPTR + nrange, maxptr); i++) {
+				if (i != TAUPTR) {
+					m = (int)PDELAY[i];
+					frac = PDELAY[i] - m;
 					lag = start - m;
 					if (fabs(frac) < 1.e-4)
 						g[i] =
@@ -329,53 +329,53 @@ static void psearch(int l)
 						    pgain(v0shift, l, TRUE, 70,
 							  LEN, &match[i]);
 					}
-					if (match[i] > match[tauptr])
+					if (match[i] > match[TAUPTR])
 						bigptr = i;
 				}
 			}
-			tauptr = bigptr;
+			TAUPTR = bigptr;
 		}
 
 		/* *OPTIONAL (may be useful for integer DSPs)                        */
-		/* *given chosen pointer to delay (tauptr), recompute its            */
+		/* *given chosen pointer to delay (TAUPTR), recompute its            */
 		/* *gain to correct errors accumulated in recursions                 */
 		/* *and errors due to truncation                                     */
 
-		m = (int)pdelay[tauptr];
-		frac = pdelay[tauptr] - m;
+		m = (int)PDELAY[TAUPTR];
+		frac = PDELAY[TAUPTR] - m;
 		lag = start - m;
 		if (fabs(frac) < 1.e-4)
 
 			/* *integer delay:                                                   */
 
-			g[tauptr] =
-			    pgain(&v0[lag - 1], l, TRUE, m, l, &match[tauptr]);
+			g[TAUPTR] =
+			    pgain(&v0[lag - 1], l, TRUE, m, l, &match[TAUPTR]);
 		else
 			/* *fractional delay:                                                */
 
 		{
 			delay(v0, start, l, frac, m, v0shift);
-			g[tauptr] =
-			    pgain(v0shift, l, TRUE, 70, l, &match[tauptr]);
+			g[TAUPTR] =
+			    pgain(v0shift, l, TRUE, 70, l, &match[TAUPTR]);
 		}
 
-		/* *place pitch parameters in common bb "structure"                  */
+		/* *place pitch parameters in common BB "structure"                  */
 
-		bb[2] = g[tauptr];
-		bb[0] = pdelay[tauptr];
+		BB[2] = g[TAUPTR];
+		BB[0] = PDELAY[TAUPTR];
 
 		/* *save pitch pointer to determine delta delay                      */
 
-		oldptr = tauptr;
+		oldptr = TAUPTR;
 	}
 
-	/* *pitch quantization bb[2]                                           */
+	/* *pitch quantization BB[2]                                           */
 
-	if (strncmp(ptype, "none", 4) != 0)
-		bb[2] = pitchencode(bb[2], &pindex);
+	if (strncmp(PTYPE, "NOne", 4) != 0)
+		BB[2] = pitchencode(BB[2], &PINDEX);
 	else {
 #ifdef CELPDIAG
-		fprintf(stderr, "psearch: no pitch quantization!\n");
+		fprintf(stderr, "psearch: NO pitch quantization!\n");
 #endif
 	}
 }

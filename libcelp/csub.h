@@ -73,19 +73,19 @@ static void csub(float s[], float v[], int l, int lp)
 
 	/* *find the intial error without pitch VQ                     */
 
-	setr(l, 0.0, e0);
+	setr(l, 0.0, E0);
 	confg(s, l, d1a, d2a, d3a, d4a, 0, 1, 1, 1);
-	movefr(no + 1, d2b, d2a);
-	movefr(no + 1, d3b, d3a);
-	movefr(no + 1, d4b, d4a);
+	movefr(NO + 1, d2b, d2a);
+	movefr(NO + 1, d3b, d3a);
+	movefr(NO + 1, d4b, d4a);
 
 	/* *find impulse response (h) of perceptual weighting filter   */
 
 	impulse(l);
 
-	/* *norm of the first error signal for const. exc.             */
+	/* *NOrm of the first error signal for const. exc.             */
 
-	if (mxsw)
+	if (MXPW)
 		mexcite1(l);
 
 	/* *pitch (adaptive code book) search                                          */
@@ -95,17 +95,17 @@ static void csub(float s[], float v[], int l, int lp)
 
 	if (lp == l)
 		psearch(l);
-	else if (nseg % 2 == 1)
+	else if (NSEG % 2 == 1)
 		psearch(lp);
 
 	/* *find initial error with pitch VQ                           */
 
-	setr(l, 0.0, e0);
+	setr(l, 0.0, E0);
 	confg(s, l, d1a, d2a, d3a, d4a, 1, 1, 1, 1);
 
-	/* *norm of second error signal for const. exc.                */
+	/* *NOrm of second error signal for const. exc.                */
 
-	if (mxsw)
+	if (MXPW)
 		mexcite2(l);
 
 	/* *stochastic code book search                                */
@@ -114,10 +114,10 @@ static void csub(float s[], float v[], int l, int lp)
 
 	/* *update filter states                                       */
 
-	movefr(l, v, e0);
+	movefr(l, v, E0);
 	confg(s, l, d1b, d2b, d3b, d4b, 1, 1, 1, 1);
-	movefr(idb, d1b, d1a);
-	movefr(no + 1, d2b, d2a);
-	movefr(no + 1, d3b, d3a);
-	movefr(no + 1, d4b, d4a);
+	movefr(IDB, d1b, d1a);
+	movefr(NO + 1, d2b, d2a);
+	movefr(NO + 1, d3b, d3a);
+	movefr(NO + 1, d4b, d4a);
 }

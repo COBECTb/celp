@@ -1,4 +1,4 @@
-/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:noexpandtab */
+/* vim: set tabstop=4:softtabstop=4:shiftwidth=4:NOexpandtab */
 
 /**************************************************************************
 *
@@ -24,7 +24,7 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	no		int	i
+*	NO		int	i
 *	frame		int	i
 *
 ***************************************************************************
@@ -57,9 +57,9 @@
 
 static void lsptopc(float f[], float pc[])
 {
-	int i, j, k, noh;
+	int i, j, k, NOh;
 #ifdef CELPDIAG
-	int lspflag;
+	int LSPFLAG;
 #endif
 	float freq[MAXNO], p[MAXNO / 2], q[MAXNO / 2];
 	float a[MAXNO / 2 + 1], a1[MAXNO / 2 + 1], a2[MAXNO / 2 + 1];
@@ -75,10 +75,10 @@ static void lsptopc(float f[], float pc[])
 			f[0], frame);
 	}
 #endif
-	lspflag = FALSE;
-	for (i = 1; i < no; i++) {
+	LSPFLAG = FALSE;
+	for (i = 1; i < NO; i++) {
 		if (f[i] <= f[i - 1])
-			lspflag = TRUE;
+			LSPFLAG = TRUE;
 #ifdef CELPDIAG
 		if (f[i] <= 0.0 || f[i] >= 0.5) {
 			fprintf(stderr,
@@ -88,18 +88,18 @@ static void lsptopc(float f[], float pc[])
 #endif
 	}
 #ifdef CELPDIAG
-	if (lspflag) {
-		fprintf(stderr, "lsptopc: nonmonotonic LSPs at frame %d\n",
+	if (LSPFLAG) {
+		fprintf(stderr, "lsptopc: NOnmoNOtonic LSPs at frame %d\n",
 			frame);
 	}
 #endif
 
 	/* *initialization                                             */
 
-	noh = no / 2;
-	for (j = 0; j < no; j++)
+	NOh = NO / 2;
+	for (j = 0; j < NO; j++)
 		freq[j] = f[j];
-	for (i = 0; i < noh + 1; i++) {
+	for (i = 0; i < NOh + 1; i++) {
 		a[i] = 0.;
 		a1[i] = 0.;
 		a2[i] = 0.;
@@ -110,7 +110,7 @@ static void lsptopc(float f[], float pc[])
 
 	/* *lsp filter parameters                                      */
 
-	for (i = 0; i < noh; i++) {
+	for (i = 0; i < NOh; i++) {
 		p[i] = -2. * cos(2. * CELP_PI * freq[2 * i]);
 		q[i] = -2. * cos(2. * CELP_PI * freq[2 * i + 1]);
 	}
@@ -118,14 +118,14 @@ static void lsptopc(float f[], float pc[])
 	/* *impulse response of analysis filter                        */
 
 	xf = 0.0;
-	for (k = 0; k < no + 1; k++) {
+	for (k = 0; k < NO + 1; k++) {
 		xx = 0.0;
 		if (k == 0)
 			xx = 1.0;
 		a[0] = xx + xf;
 		b[0] = xx - xf;
 		xf = xx;
-		for (i = 0; i < noh; i++) {
+		for (i = 0; i < NOh; i++) {
 			a[i + 1] = a[i] + p[i] * a1[i] + a2[i];
 			b[i + 1] = b[i] + q[i] * b1[i] + b2[i];
 			a2[i] = a1[i];
@@ -134,12 +134,12 @@ static void lsptopc(float f[], float pc[])
 			b1[i] = b[i];
 		}
 		if (k != 0)
-			pc[k - 1] = -.5 * (a[noh] + b[noh]);
+			pc[k - 1] = -.5 * (a[NOh] + b[NOh]);
 	}
 
 	/* *convert to CELP's predictor coefficient array configuration */
 
-	for (i = no - 1; i >= 0; i--)
+	for (i = NO - 1; i >= 0; i--)
 		pc[i + 1] = -pc[i];
 	pc[0] = 1.0;
 }

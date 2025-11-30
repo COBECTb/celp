@@ -23,10 +23,10 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	no		int	i
-*	fc[]		float	i
-*	h[]		float	i/o
-*	gamma2		float	i
+*	NO		int	i
+*	FC[]		float	i
+*	H[]		float	i/o
+*	GAMMA2		float	i
 *
 ***************************************************************************
 *
@@ -51,10 +51,10 @@ static void impulse(int l)
 {
 	float d5[MAXNO + 1], fctemp[MAXNO + 1];
 
-	setr(l, 0.0, h);
-	h[0] = 1.0;
-	setr(no + 1, 0.0, d5);
-	bwexp(gamma2, fc, fctemp, no);
-	polefilt(fctemp, no, d5, h, l);
+	setr(l, 0.0, H);
+	H[0] = 1.0;
+	setr(NO + 1, 0.0, d5);
+	bwexp(GAMMA2, FC, fctemp, NO);
+	polefilt(fctemp, NO, d5, H, l);
 
 }

@@ -54,6 +54,9 @@ celp_state_t* get_celp_context(void) {
 /* Include celplib functions */
 #include "celplib.h"
 
+/* Include context for state management */
+#include "context.h"
+
 /* Include only the headers with basic definitions */
 #include "round.h"
 #include "movefr.h"

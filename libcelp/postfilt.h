@@ -32,8 +32,8 @@
 *			data	I/O
 *	name		type	type	function
 *	-------------------------------------------------------------------
-*	no		int	i
-*	fci[]		float	i
+*	NO		int	i
+*	FCI[]		float	i
 *
 ***************************************************************************
 *
@@ -114,16 +114,16 @@ static void postfilt(float s[], int l, float alpha, float beta,
 #endif
 
 	/* *BW expansion                                                      */
-	bwexp(beta, fci, pcexp1, no);
-	bwexp(alpha, fci, pcexp2, no);
+	bwexp(beta, FCI, pcexp1, NO);
+	bwexp(alpha, FCI, pcexp2, NO);
 
 	/* *pole-zero postfilter                                              */
-	zerofilt(pcexp1, no, dp1, s, l);
-	polefilt(pcexp2, no, dp2, s, l);
+	zerofilt(pcexp1, NO, dp1, s, l);
+	polefilt(pcexp2, NO, dp2, s, l);
 
 	/* *find spectral tilt (1st order fit) of postfilter
 	 *(denominator dominates the tilt)                                    */
-	pctorc(pcexp2, rcexp2, no);
+	pctorc(pcexp2, rcexp2, NO);
 
 	/* *tilt compensation by a scaled zero
 	 *(don't allow hF roll-off)                                         */
