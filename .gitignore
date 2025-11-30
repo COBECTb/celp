@@ -1,1 +1,45 @@
-Nothing should be ignored based on the provided file changes. The only modified file is a source header file (.h), which should not be ignored.
+```
+# Compiled and build artifacts
+*.o
+*.a
+*.exe
+*.dll
+*.so
+*.class
+*.pyc
+__pycache__/
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+.env
+.env.local
+*.env.*
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Editors
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Distribution / build artifacts
+dist/
+build/
+target/
+.mypy_cache/
+.pytest_cache/
+.gradle/
+
+# System files
+.DS_Store
+Thumbs.db
+```

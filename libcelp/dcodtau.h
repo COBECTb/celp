@@ -85,10 +85,10 @@ static void dcodtau(int taubits, int taudelta, int bitsum1,
 			if (mnptr < 0)
 				mnptr = 0;
 			if (mxptr > PLEVEL1 - 1)
-				mnptr = PLEVEL1 - PLEVEL2;
+				mxptr = PLEVEL1 - 1;
 			taus[i] = PDELAY[tptr + mnptr];
 		}
 		lptr = pdtabi[tptr];
 	}
-	*bitpointer += taubits;
+	*bitpointer = pointer;
 }

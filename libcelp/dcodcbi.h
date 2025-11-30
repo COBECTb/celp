@@ -57,9 +57,9 @@ static void dcodcbi(int cbbits, int bitsum1, int bitsum2,
 	for (i = 0; i < nn; i++) {
 		unpack(stream, cbbits, &cbi[i], &pointer);
 		cbi[i]++;
-		if (i == 0 || i == 2 || i == 4)
+		if (i == 1 || i == 3 || i == 5)
 			pointer += bitsum2 - cbbits;
-		else if (i == 1 || i == 3 || i == 5)
+		else if (i == 0 || i == 2 || i == 4)
 			pointer += bitsum1 - cbbits;
 		else {
 #ifdef CELPDIAG
@@ -70,5 +70,5 @@ static void dcodcbi(int cbbits, int bitsum1, int bitsum2,
 			return;
 		}
 	}
-	*bitpointer += cbbits;
+	*bitpointer = pointer;
 }

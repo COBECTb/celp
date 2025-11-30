@@ -57,9 +57,9 @@ static void dcodpg(int pgbits, int bitsum1, int bitsum2,
 	for (i = 0; i < nn; i++) {
 		unpack(stream, pgbits, &index, &pointer);
 		pitchdecode(index, &pgs[i]);
-		if (i == 0 || i == 2 || i == 4)
+		if (i == 1 || i == 3 || i == 5)
 			pointer += bitsum2 - pgbits;
-		else if (i == 1 || i == 3 || i == 5)
+		else if (i == 0 || i == 2 || i == 4)
 			pointer += bitsum1 - pgbits;
 		else {
 #ifdef CELPDIAG
@@ -70,5 +70,5 @@ static void dcodpg(int pgbits, int bitsum1, int bitsum2,
 #endif
 		}
 	}
-	*bitpointer += pgbits;
+	*bitpointer = pointer;
 }
