@@ -8,9 +8,6 @@
 /* Global context for backward compatibility */
 extern celp_state_t global_celp_state;
 
-/* Macro to access current context */
-#define CURRENT_STATE (use_state_context ? &global_celp_state : NULL)
-
 /* Flag to determine which context to use */
 extern int use_state_context;
 
