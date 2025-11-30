@@ -42,8 +42,7 @@ int main(int argc, char **argv)
 		fprintf(stderr,"Ussage: celp <mode> infile outfile");
 		exit(1);
 	}
-//    printf("celp 1200bps: ");
-	celp_init(0);
+	
 	FILE *fp_in, *fp_out;
 	if(argv[2][0]!='-')
 	{
@@ -69,6 +68,15 @@ int main(int argc, char **argv)
 	{
 		fp_out = stdout;
 	}
+	
+	/* Create and initialize codec state */
+	celp_state_t* state = celp_create_state();
+	if (!state) {
+		fprintf(stderr, "ERROR: cannot create codec state.\n");
+		exit(1);
+	}
+	celp_init_state(state, 0);
+	
 	int length, frame, eof_reached=0;
 	short speech[240];
 	unsigned char buf[144/8];
@@ -80,7 +88,7 @@ int main(int argc, char **argv)
 				   length=fread(speech,sizeof(short),240,fp_in);
 				   if(length<240)
 					break; // Нулячить хвост
-				   celp_encode(speech,buf);
+				   celp_encode_state(state, speech, buf);
 				   fwrite(buf,sizeof(char),144/8,fp_out);
 			
 				   //тут надо брать в 11 байте бит и хз что делать с ним. лишний байт это ппц
@@ -97,7 +105,7 @@ int main(int argc, char **argv)
 				   length=fread(buf,sizeof(char),144/8,fp_in);
 				   if(length<144/8)
 				   break; // Нулячить хвост
-				   celp_decode(buf,speech);
+				   celp_decode_state(state, buf, speech);
 				   fwrite(speech,sizeof(short),240,fp_out);
 				   if (fp_out == stdout) fflush(stdout);
 				   if (fp_in == stdin) fflush(stdin);
@@ -112,13 +120,14 @@ int main(int argc, char **argv)
 				   length=fread(speech,sizeof(short),240,fp_in);
 				   if(length<240)
 				   break; // Нулячить хвост
-				   celp_encode(speech,buf);
-				   celp_decode(buf,speech);
+				   celp_encode_state(state, speech, buf);
+				   celp_decode_state(state, buf, speech);
 				   fwrite(speech,sizeof(short),240,fp_out);
 				   if (fp_out == stdout) fflush(stdout);
 				   if (fp_in == stdin) fflush(stdin);
 			,getpid());
 		}
 	}
+        celp_destroy_state(state);
 	exit(0);
 }
