@@ -105,7 +105,10 @@ int main(int argc, char **argv)
 				   length=fread(buf,sizeof(char),144/8,fp_in);
 				   if(length<144/8)
 				   break; // Нулячить хвост
-				   celp_decode_state(state, buf, speech);
+				   int result = celp_decode_state(state, buf, speech);
+				   if(result != 0) {
+					   fprintf(stderr, "CELP decode error: %d\n", result);
+				   }
 				   fwrite(speech,sizeof(short),240,fp_out);
 				   if (fp_out == stdout) fflush(stdout);
 				   if (fp_in == stdin) fflush(stdin);
@@ -121,7 +124,10 @@ int main(int argc, char **argv)
 				   if(length<240)
 				   break; // Нулячить хвост
 				   celp_encode_state(state, speech, buf);
-				   celp_decode_state(state, buf, speech);
+				   int result = celp_decode_state(state, buf, speech);
+				   if(result != 0) {
+					   fprintf(stderr, "CELP decode error: %d\n", result);
+				   }
 				   fwrite(speech,sizeof(short),240,fp_out);
 				   if (fp_out == stdout) fflush(stdout);
 				   if (fp_in == stdin) fflush(stdin);

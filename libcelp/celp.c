@@ -15,6 +15,7 @@
 #include "ophtools.h"
 
 #define PROTECT
+#define CELPDIAG
 
 #define TRUE		1
 #define FALSE		0
