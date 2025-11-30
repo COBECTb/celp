@@ -53,6 +53,6 @@ static void unpack(const short array[], int bits, int *value, int *pointer)
 {
 	int i;
 
-	for (i = 0, *value = 0; i < bits; i++, (*pointer)++)
-		*value |= array[*pointer + 1] << i;
+	for (i = 0, *value = 0; i < bits; i++)
+		*value |= array[++(*pointer)] << i;
 }
