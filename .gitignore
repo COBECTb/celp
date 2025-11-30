@@ -1,13 +1,1 @@
-```
-# Compiled and build artifacts
-*.o
-*.a
-*.obj
-*.out
-# Dependencies
-libcelp/
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-```
+Nothing should be ignored based on the provided file changes. The only modified file is a source header file (.h), which should not be ignored.
