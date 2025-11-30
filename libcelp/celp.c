@@ -143,6 +143,8 @@ static int celp_error;		/* Error in encoding or decoding */
 
 void celp_init(int prot)
 {
+		/* Set global context to use global_state_instance */
+		set_celp_context(&global_state_instance);
 #ifdef PROTECT
 	protect = prot;		/* Set bit error recovery mode */
 #endif
@@ -506,7 +508,9 @@ int celp_decode(char packedbits[STREAMBITS / 8], short pf[MAXLL])
 		/* Decode values for subframe. */
 
 		cbindex = cbi[i];
+		CBINDEX = cbindex;  /* Update global context */
 		decodedgain = cbg[i];
+		DECODEDGAIN = decodedgain;  /* Update global context */
 #ifdef PROTECT
 		if (protect) {
 			smoothcbgain(&decodedgain, twoerror, syndavg, cbg,
