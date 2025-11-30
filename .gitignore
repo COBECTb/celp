@@ -1,37 +1,37 @@
 ```
 # Compiled and build artifacts
-*.o
 *.a
+*.o
+*.obj
 *.out
-*.exe
-*.dll
-*.so
-*.class
-*.pyc
-__pycache__/
+build/
+dist/
 
 # Test output files
-*.raw
-*.celp
+test_decoded_new.raw
+test_decoded_output.raw
 
 # Dependencies
 node_modules/
 venv/
 .venv/
-.env
-.env.local
-*.env.*
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+target/
+.gradle/
 
 # Logs and temp files
 *.log
 *.tmp
 *.swp
 
+# Environment
+.env
+.env.local
+*.env.*
+
 # Editors
 .vscode/
 .idea/
-
-# System files
-.DS_Store
-Thumbs.db
 ```
