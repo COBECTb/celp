@@ -1,6 +1,6 @@
 
 
-CFLAGS += -Wall -O4
+CFLAGS += -Wall -O0 -g
 
 LOBJECTS = celp.o state_functions.o
 

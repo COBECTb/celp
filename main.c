@@ -104,10 +104,14 @@ int main(int argc, char **argv)
 			FSpeed(
 				   length=fread(buf,sizeof(char),144/8,fp_in);
 				   if(length<144/8)
-				   break; // Нулячить хвост
+				   break; // Exit if not enough data for a full frame
 				   int result = celp_decode_state(state, buf, speech);
 				   if(result != 0) {
 					   fprintf(stderr, "CELP decode error: %d\n", result);
+					   // Only continue if it's not a critical error
+					   if (result == CELP_TWOERR || result == CELP_LSPERR) {
+						   break; // Critical error, stop decoding
+					   }
 				   }
 				   fwrite(speech,sizeof(short),240,fp_out);
 				   if (fp_out == stdout) fflush(stdout);
