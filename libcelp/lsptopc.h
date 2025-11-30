@@ -58,9 +58,7 @@
 static void lsptopc(float f[], float pc[])
 {
 	int i, j, k, NOh;
-#ifdef CELPDIAG
-	int LSPFLAG;
-#endif
+	int lsp_flag_local;
 	float freq[MAXNO], p[MAXNO / 2], q[MAXNO / 2];
 	float a[MAXNO / 2 + 1], a1[MAXNO / 2 + 1], a2[MAXNO / 2 + 1];
 	float b[MAXNO / 2 + 1], b1[MAXNO / 2 + 1], b2[MAXNO / 2 + 1];
@@ -75,10 +73,10 @@ static void lsptopc(float f[], float pc[])
 			f[0], frame);
 	}
 #endif
-	LSPFLAG = FALSE;
+	lsp_flag_local = FALSE;
 	for (i = 1; i < NO; i++) {
 		if (f[i] <= f[i - 1])
-			LSPFLAG = TRUE;
+			lsp_flag_local = TRUE;
 #ifdef CELPDIAG
 		if (f[i] <= 0.0 || f[i] >= 0.5) {
 			fprintf(stderr,
@@ -88,7 +86,7 @@ static void lsptopc(float f[], float pc[])
 #endif
 	}
 #ifdef CELPDIAG
-	if (LSPFLAG) {
+	if (lsp_flag_local) {
 		fprintf(stderr, "lsptopc: NOnmoNOtonic LSPs at frame %d\n",
 			frame);
 	}
